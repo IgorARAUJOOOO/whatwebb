@@ -1,52 +1,42 @@
-const iframe = document.getElementById('whatsapp-frame') as HTMLIFrameElement;
-const overlay = document.getElementById('overlay-status');
+// User-Agent de Desktop para enganar o WhatsApp Web (Windows Chrome)
+const DESKTOP_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36";
+
+// No Capacitor, para mudar o UserAgent globalmente no Android
+// Isso geralmente é feito no código Nativo (Java), mas vamos preparar o JS
+console.log("WhatsBrowser carregado com UserAgent: " + DESKTOP_USER_AGENT);
+
 const menuBtn = document.getElementById('ext-menu-btn');
 const extPanel = document.getElementById('ext-panel');
 const btnFixLayout = document.getElementById('btn-fix-layout');
 const btnInjectCustom = document.getElementById('btn-inject-custom');
 const customJsArea = document.getElementById('custom-js') as HTMLTextAreaElement;
 
-// User-Agent de Desktop para enganar o WhatsApp Web
-const DESKTOP_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36";
-
-// No Capacitor, podemos interceptar as requisições, mas para o MVP web/simulado:
-console.log("Iniciando Browser Customizado...");
-
-// Simulação de carregamento
-iframe.onload = () => {
-    console.log("WhatsApp Iframe Carregado");
-    if (overlay) overlay.style.opacity = '0';
-    setTimeout(() => overlay?.remove(), 500);
-};
-
 // Abrir/Fechar Menu de Extensões
 menuBtn?.addEventListener('click', () => {
     extPanel?.classList.toggle('hidden');
 });
 
-// Extensão 1: Corrigir Layout (Script que seria injetado)
+// Extensão 1: Corrigir Layout
 btnFixLayout?.addEventListener('click', () => {
-    alert("Injetando script de correção de layout...");
-    // Em um navegador real ou Capacitor com InAppBrowser, injetaríamos JS:
-    // const script = `document.body.style.zoom = '0.8';`;
+    // Tenta forçar o zoom para caber melhor na tela do celular
+    const style = document.createElement('style');
+    style.innerHTML = `
+        body { zoom: 0.65 !important; }
+        #app > div > span { transform: scale(0.8) !important; }
+    `;
+    document.head.appendChild(style);
+    alert("Layout ajustado!");
 });
 
 // Extensão 2: Injetar Customizado
 btnInjectCustom?.addEventListener('click', () => {
     const code = customJsArea.value;
     if (code) {
-        console.log("Injetando:", code);
-        // iframe.contentWindow?.eval(code); // Nota: Isso só funciona se estiver no mesmo domínio ou com Capacitor plugins específicos
-        alert("Código enviado para o buffer de injeção!");
+        try {
+            eval(code);
+            alert("Script executado com sucesso!");
+        } catch (e) {
+            alert("Erro no script: " + e);
+        }
     }
 });
-
-// Lógica de "Extensões" Automáticas
-const autoExtensions = [
-    {
-        name: "Dark Mode Fix",
-        code: "document.body.classList.add('dark')"
-    }
-];
-
-console.log("Extensões carregadas:", autoExtensions.length);

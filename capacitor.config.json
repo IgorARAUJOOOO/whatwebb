@@ -2,5 +2,8 @@
     "appId": "com.meuprojeto.whatsbrowser",
     "appName": "WhatsBrowser",
     "webDir": "dist",
-    "bundledWebRuntime": false
+    "server": {
+        "url": "https://web.whatsapp.com",
+        "cleartext": true
+    }
 }
