@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Web Mobile Tool</title>
+    <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+    <div id="app">
+        <div id="overlay-status">
+            <div id="loader"></div>
+            <p>Carregando WhatsApp Web Premium...</p>
+        </div>
+        
+        <!-- O Iframe onde o WhatsApp vai rodar -->
+        <iframe 
+            id="whatsapp-frame" 
+            src="https://web.whatsapp.com" 
+            allow="camera; microphone; clipboard-read; clipboard-write"
+            style="width: 100vw; height: 100vh; border: none;"
+        ></iframe>
+
+        <!-- Botão Flutuante para suas Extensões -->
+        <div id="ext-menu-btn">⚙️</div>
+
+        <!-- Painel de Extensões -->
+        <div id="ext-panel" class="hidden">
+            <h3>Minhas Extensões</h3>
+            <div class="ext-list">
+                <button id="btn-fix-layout">Corrigir Layout Mobile</button>
+                <button id="btn-inject-custom">Injetar Script Customizado</button>
+                <textarea id="custom-js" placeholder="Cole seu JS aqui..."></textarea>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

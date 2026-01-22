@@ -1,0 +1,8 @@
+node_modules
+dist
+android
+ios
+.gradle
+local.properties
+*.log
+.DS_Store
