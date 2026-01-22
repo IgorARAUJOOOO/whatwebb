@@ -33,6 +33,9 @@ jobs:
       - name: Add Android Platform
         run: npx cap add android
 
+      - name: Patch Android Native Code (Desktop User-Agent)
+        run: node patch-android.js
+
       - name: Copy Assets to Android
         run: npx cap sync android
 
